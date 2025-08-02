@@ -1,22 +1,22 @@
-const http = require("node:http");
-const fs = require("node:fs");
+const express = require("express");
+const path = require("node:path");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.writeHead(200, { "Content-type": "text/html" });
-    fs.createReadStream(`${__dirname}/pages/index.html`).pipe(res);
-  } else if (req.url === "/about") {
-    res.writeHead(200, { "Content-type": "text/html" });
-    fs.createReadStream(`${__dirname}/pages/about.html`).pipe(res);
-  } else if (req.url === "/contact-me") {
-    res.writeHead(200, { "Content-type": "text/html" });
-    fs.createReadStream(`${__dirname}/pages/contact-me.html`).pipe(res);
+const app = express();
+
+app.get("/", (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, "/pages/index.html"));
+});
+
+app.get("/:path", (req, res) => {
+  if (req.params.path === "about" || req.params.path === "contact-me") {
+    res
+      .status(200)
+      .sendFile(path.join(__dirname, `/pages/${req.params.path}.html`));
   } else {
-    res.writeHead(404, { "Content-type": "text/html" });
-    fs.createReadStream(`${__dirname}/pages/404.html`).pipe(res);
+    res.status(200).sendFile(path.join(__dirname, "/pages/404.html"));
   }
 });
 
-server.listen(8000, () => {
+app.listen(8000, () => {
   console.log("server is listening");
 });
