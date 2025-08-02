@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
     fs.createReadStream(`${__dirname}/pages/contact-me.html`).pipe(res);
   } else {
-    res.writeHead(200, { "Content-type": "text/html" });
+    res.writeHead(404, { "Content-type": "text/html" });
     fs.createReadStream(`${__dirname}/pages/404.html`).pipe(res);
   }
 });
