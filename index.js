@@ -13,7 +13,7 @@ app.get("/:path", (req, res) => {
       .status(200)
       .sendFile(path.join(__dirname, `/pages/${req.params.path}.html`));
   } else {
-    res.status(200).sendFile(path.join(__dirname, "/pages/404.html"));
+    res.status(404).sendFile(path.join(__dirname, "/pages/404.html"));
   }
 });
 
